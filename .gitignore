@@ -1,0 +1,32 @@
+# Dependencies & build output
+node_modules/
+build/
+dist/
+coverage/
+
+# Generated / distributable archives (publish as GitHub Release assets, not in the source tree)
+*.zip
+
+# Local-only environment files (safe example template is kept)
+.env*
+!.env.example
+
+# Legacy / stray artifacts of an earlier build-output snapshot — kept on disk for the
+# owner, deliberately excluded from the repository (see README "Project status" and
+# docs/TECHNICAL_DEBT.md; service-worker-1.js is a byte-identical copy, the other
+# *-1.* files are outdated variants, 200/350 are stray number files, metadata.json is
+# AI-Studio metadata, bun.lock is a non-canonical lockfile)
+*-1.html
+*-1.json
+*-1.js
+/200
+/350
+/metadata.json
+/bun.lock
+/snippet-organizer-document/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
+*.tmp

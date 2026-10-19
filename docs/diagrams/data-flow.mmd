@@ -1,0 +1,19 @@
+flowchart TD
+  U[User] -->|click/save/toggle| UI["React components"]
+  UI -->|"repository calls"| DB["db.ts"]
+  DB --> IDX[("IndexedDB<br/>snippets / categories / preferences")]
+  DB -->|"mirror save"| CS[("chrome.storage.local<br/>user_preferences")]
+
+  UI -->|"Refresh click"| ORCH["popupRefresh.ts (single-flight)"]
+  ORCH -->|"Promise.allSettled"| LD["loadData() → db.ts re-read"]
+  ORCH -->|"Promise.allSettled"| PR["probe() → connection.ts silent probe"]
+  LD -->|"state set"| UI
+  PR -->|"disconnected? → zero auth/network"| CS
+  PR -->|"else: silent token + GET about"| G["Google identity + Drive"]
+  ORCH -->|"onEnd after minDurationMs floor"| UI
+
+  UI -->|"editor save"| DB
+  DB -->|"version++ / updatedAt"| IDX
+
+  classDef store fill:#e8f0fe,stroke:#4a6fa5;
+  class IDX,CS store;

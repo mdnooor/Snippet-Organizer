@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Snippet Organizer",
+  "version": "0.1.0",
+  "description": "Personal snippet and productivity organizer.",
+  "action": {
+    "default_title": "Snippet Organizer",
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
+  },
+  "permissions": ["storage", "identity"],
+  "commands": {
+    "_execute_action": {
+      "description": "Open the Snippet Organizer popup"
+    }
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  }
+}

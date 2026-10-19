@@ -1,0 +1,25 @@
+flowchart TD
+  subgraph Create["Create snapshot (user click, Settings)"]
+    G["gather.ts<br/>read live data via db.ts deps"] --> S["snapshot.ts<br/>serialize BackupData JSON + timestamped filename"]
+    S --> B["backup.ts:createCloudBackup<br/>guard: disconnect intent checked"]
+    B -->|"multipart files.create<br/>parents=[appDataFolder]"| UP["Drive appDataFolder"]
+  end
+
+  subgraph Manage["Browse / download / delete (user clicks)"]
+    L["driveClient: files.list<br/>'appDataFolder' in parents"] --> META["snapshot metadata list"]
+    META --> DL["files.get?alt=media → JSON"]
+    META --> DEL["files.delete"]
+  end
+
+  subgraph Restore["Restore (user click)"]
+    DL --> PREV["conflict.ts:computeRestorePreview<br/>vs local + snapshotStore metadata"]
+    PREV --> CL{"conflicts?"}
+    CL -->|"none"| APPLY
+    CL -->|"content / deletion-state"| RES["user resolves per item:<br/>keep-local (default) / take-incoming / keep-both"]
+    RES --> APPLY["applyResolutions → db.ts:restoreBackupData<br/>(validate BEFORE any local write)"]
+    APPLY --> REL["UI reload from IndexedDB"]
+  end
+
+  UP -.-> L
+  classDef guard fill:#ffe8e8,stroke:#a33;
+  class B guard;

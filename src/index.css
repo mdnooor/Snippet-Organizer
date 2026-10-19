@@ -1,0 +1,769 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   LOCKED Red Glass-Claymorphism Design System
+   Approved constants are preserved exactly where specified:
+   - Global red gradient background (.glass-app-bg)
+   - Main glass-clay surface (.glass-clay-surface)
+   - Claymorphism button (.clay-btn — exact base + hover)
+   - Permanent red inset fields (.nm-static-inset-field/-editor etc.)
+   Existing nm-* class names and component structure are preserved; only the
+   visual material changed. Compact controls use scaled-down variants of the
+   locked shadows for usability (documented exception, see DESIGN_SYSTEM.md).
+   ========================================================================== */
+
+:root {
+  --red-brand: rgb(208, 2, 5);
+  --red-decor: rgb(240, 85, 88);
+  --red-text: #7f1d1d;
+  /* THIN-SCROLL-01: restrained brand-red scrollbar tones, derived from the
+     locked --red-brand (single source — no competing red values). ~38% alpha
+     keeps the thumb slim and unobtrusive on the light glass surfaces; hover
+     steps to ~62% for visibility without oversizing or glare. */
+  --red-scrollbar-thumb: rgba(208, 2, 5, 0.38);
+  --red-scrollbar-thumb-hover: rgba(208, 2, 5, 0.62);
+}
+
+/* --- Locked global red gradient ------------------------------------------ */
+.glass-app-bg {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(208, 2, 5, 0.9),
+    rgba(208, 2, 5, 0.1)
+  );
+  background-repeat: no-repeat;
+}
+
+/* --- Locked main glass-clay surface --------------------------------------- */
+/* CLAY-DEPTH-01 (2026-10-17): the original single 35px/35px down-right shadow
+   left the top edge shadowless, and against the dark top of the red gradient
+   (composited ≈ rgb(212,30,32)) the deep-red spill was invisible — the surface
+   looked flat at the top corners. Two ADDITIVE top-edge layers were prepended
+   (broad ambient + tight contact, neutral dark-warm grey sampled against the
+   real background) so the silhouette reads as raised from top to bottom. The
+   locked bottom-right shadow and both inset layers are preserved verbatim.
+   Offsets/blur/spread are sized to the 25px popup ring (reach ≤ 24px) so the
+   480x600 window's overflow-hidden never clips the new shadow. */
+.glass-clay-surface {
+  background-color: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border-radius: 26px;
+  box-shadow:
+    0 -9px 22px -7px rgba(70, 24, 26, 0.42),
+    0 -2px 6px -2px rgba(70, 24, 26, 0.3),
+    35px 35px 68px 0px rgba(208, 2, 5, 0.5),
+    inset -8px -8px 16px 0px rgba(208, 2, 5, 0.6),
+    inset 0px 11px 28px 0px rgb(255, 255, 255);
+}
+
+/* --- Locked claymorphism button ------------------------------------------- */
+.clay-btn {
+  background: rgba(208, 2, 5, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 35px 68px 0 rgba(208, 2, 5, 0.42),
+    inset 0 -8px 16px 0 rgb(255, 255, 255, 0.8);
+  transition:
+    background 0.5s ease-in-out,
+    box-shadow 0.5s ease-in-out,
+    transform 0.5s ease-in-out;
+}
+
+.clay-btn:not(:disabled):hover {
+  background: rgba(208, 2, 5, 0.1);
+  box-shadow:
+    0 35px 68px 0 rgba(208, 2, 5, 0.42),
+    inset 0 -8px 16px 0 rgb(208, 2, 5, 0.7);
+  transform: translateY(-5px);
+}
+
+/* Legibility aid for white button labels during the light hover state.
+   Additive only — does not replace any locked box-shadow value. */
+.clay-btn {
+  text-shadow: 0 1px 2px rgba(120, 0, 3, 0.55);
+}
+
+/* --- Locked decorative clay element (logo plinth) -------------------------- */
+.clay-decor {
+  background: rgb(240, 85, 88);
+  border-radius: 26%;
+  box-shadow:
+    0 5px 5px 0 rgba(240, 85, 88, 0.2),
+    inset -8px -8px 16px 0 rgba(145, 192, 255, 0.6),
+    inset 0px 11px 28px 0 rgba(255, 255, 255, 1);
+}
+
+/* --- Locked permanent red inset (fields, editors) -------------------------- */
+.glass-inset,
+.nm-static-inset-field,
+.nm-static-inset-editor {
+  background: rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: none;
+  border-radius: 15px;
+  box-shadow:
+    inset 6px 6px 10px rgba(208, 2, 5, 0.25),
+    inset -6px -6px 10px rgba(255, 255, 255, 0.92);
+  transition: box-shadow 0.15s ease;
+}
+
+/* Inset shadows persist on focus; a visible custom focus indicator is added
+   without replacing the permanent inset effect. */
+.glass-inset:focus,
+.glass-inset:focus-within,
+.nm-static-inset-field:focus-within,
+.nm-static-inset-editor:focus,
+.nm-static-inset-editor:focus-within {
+  box-shadow:
+    inset 6px 6px 10px rgba(208, 2, 5, 0.25),
+    inset -6px -6px 10px rgba(255, 255, 255, 0.92);
+  outline: 2px solid rgba(208, 2, 5, 0.55);
+  outline-offset: 2px;
+}
+
+/* SEARCH-CLEAR-01: the search field has its own accessible clear (×) button,
+   so the WebKit-native search-cancel × is hidden to keep ONE clear affordance
+   that never collides with it. Scoped to the search input only. */
+input[data-search-input]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+/* Transparent inner inputs never compete with the inset wrapper */
+.glass-inset input,
+.glass-inset textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   1. Default Interactive State: light glass-clay raised object
+      (inactive tabs, secondary buttons, option cards)
+   ========================================================================== */
+.nm-raised {
+  background: rgba(255, 255, 255, 0.35);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 10px 22px 0 rgba(208, 2, 5, 0.25),
+    inset -4px -4px 10px 0 rgba(208, 2, 5, 0.28),
+    inset 0 6px 14px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover: locked clay hover language (lighten + lift), scaled for control size */
+.nm-raised:not(:disabled):hover {
+  background: rgba(208, 2, 5, 0.15);
+  box-shadow:
+    0 12px 26px 0 rgba(208, 2, 5, 0.3),
+    inset -4px -4px 10px 0 rgba(208, 2, 5, 0.45),
+    inset 0 6px 14px 0 rgba(255, 255, 255, 0.7);
+  transform: translateY(-3px);
+}
+
+/* Pressed State: pushed into the surface */
+.nm-raised:active,
+.nm-raised.active {
+  background: rgba(208, 2, 5, 0.28);
+  box-shadow:
+    inset 4px 4px 8px rgba(208, 2, 5, 0.4),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.5);
+  transform: none;
+}
+
+/* 2. Persistently Inset State (Selected Options, Settings Tabs) — locked red inset */
+.nm-inset {
+  background: rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: none;
+  box-shadow:
+    inset 6px 6px 10px rgba(208, 2, 5, 0.25),
+    inset -6px -6px 10px rgba(255, 255, 255, 0.92);
+  transition: all 0.2s ease-in-out;
+}
+
+.nm-inset:hover {
+  background: rgba(255, 255, 255, 0.36);
+  box-shadow:
+    inset 6px 6px 10px rgba(208, 2, 5, 0.25),
+    inset -6px -6px 10px rgba(255, 255, 255, 0.92);
+}
+
+/* 3. Primary Brand Persistent Selected State (Active Search/Filter Tabs):
+      filled red clay — clearly distinguishable selected control */
+.nm-primary-inset {
+  background: rgba(208, 2, 5, 0.62);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 10px 22px 0 rgba(208, 2, 5, 0.35),
+    inset 0 -6px 12px 0 rgba(255, 255, 255, 0.55),
+    inset 0 2px 6px 0 rgba(255, 255, 255, 0.4);
+  border: none;
+  color: #ffffff;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Remains persistently selected on hover without reverting */
+.nm-primary-inset:hover {
+  background: rgba(208, 2, 5, 0.55);
+  box-shadow:
+    0 10px 22px 0 rgba(208, 2, 5, 0.35),
+    inset 0 -6px 12px 0 rgba(255, 255, 255, 0.55),
+    inset 0 2px 6px 0 rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+
+/* 4. Primary Brand Raised State (CTA Buttons): locked clay button, exact values */
+.nm-primary-raised {
+  background: rgba(208, 2, 5, 0.5);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 35px 68px 0 rgba(208, 2, 5, 0.42),
+    inset 0 -8px 16px 0 rgb(255, 255, 255, 0.8);
+  border: none;
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(120, 0, 3, 0.55);
+  transition:
+    background 0.5s ease-in-out,
+    box-shadow 0.5s ease-in-out,
+    transform 0.5s ease-in-out;
+}
+
+.nm-primary-raised:not(:disabled):hover {
+  background: rgba(208, 2, 5, 0.1);
+  box-shadow:
+    0 35px 68px 0 rgba(208, 2, 5, 0.42),
+    inset 0 -8px 16px 0 rgb(208, 2, 5, 0.7);
+  transform: translateY(-5px);
+}
+
+.nm-primary-raised:active {
+  background: rgba(208, 2, 5, 0.4);
+  box-shadow:
+    inset 0 6px 12px 0 rgba(120, 0, 3, 0.4),
+    inset 0 -4px 10px 0 rgba(255, 255, 255, 0.5);
+  transform: none;
+}
+
+/* 5. Static Logo Container: locked decorative clay element */
+.nm-logo-raised {
+  background: rgb(240, 85, 88);
+  border-radius: 26%;
+  box-shadow:
+    0 5px 5px 0 rgba(240, 85, 88, 0.2),
+    inset -8px -8px 16px 0 rgba(145, 192, 255, 0.6),
+    inset 0px 11px 28px 0 rgba(255, 255, 255, 1);
+}
+
+/* 5b. Primary Logo Glow (LOGO-GLOW-01): soft light-red / warm coral outer glow
+      that follows the logo's rounded silhouette via drop-shadow (no rectangular
+      halo, no layout impact). Tones match the light-red card accents (rose-200/
+      rose-300 family) of the Red Glass-Claymorphism system. Applied ONLY to the
+      popup header's primary logo container — never globally. */
+.nm-logo-glow {
+  filter:
+    drop-shadow(0 0 5px rgba(254, 202, 202, 0.95))
+    drop-shadow(0 0 13px rgba(252, 165, 165, 0.55));
+}
+
+/* 5c. Motion & Feedback conventions (MOTION-01): restrained tactile press
+      responses and toast exit, shared by the popup and Settings. Transitions
+      animate transform only (compositor-friendly, no layout impact). */
+.nm-press {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nm-press:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* Card-level press: even subtler, for the frequent click-to-copy surfaces. */
+.nm-press-sm {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nm-press-sm:active {
+  transform: scale(0.985);
+}
+
+/* Toast exit (pairs with the tailwind animate-in entrance classes):
+      quick fade + small downward drift, then the element unmounts. */
+@keyframes nm-toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.nm-toast-out {
+  animation: nm-toast-out 0.16s ease-in forwards;
+}
+
+/* 5d. Entrance-animation utilities (MOTION-01): the codebase has referenced
+      `animate-in` / `fade-in` / `zoom-in-95` / `slide-in-from-*` classes on
+      modals, dropdowns, and toasts since before this task, but no animation
+      plugin was ever installed, so they were silent no-ops. These definitions
+      give the EXISTING class names real behavior — no component edits needed.
+      Duration follows Tailwind v4's `--tw-duration` custom property, which the
+      core `duration-*` utilities already emit; default 180 ms. */
+@keyframes nm-enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0)
+      scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), 1);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+}
+
+.animate-in {
+  animation: nm-enter var(--tw-duration, 180ms) cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.fade-in {
+  --tw-enter-opacity: 0;
+}
+
+.zoom-in-95 {
+  --tw-enter-scale: 0.95;
+}
+
+.zoom-in-98 {
+  --tw-enter-scale: 0.98;
+}
+
+.slide-in-from-top-1 {
+  --tw-enter-translate-y: -0.25rem;
+}
+
+.slide-in-from-top-2 {
+  --tw-enter-translate-y: -0.5rem;
+}
+
+.slide-in-from-bottom-1 {
+  --tw-enter-translate-y: 0.25rem;
+}
+
+/* MOTION-01 accessibility: users who prefer reduced motion get instant state
+      changes — feedback remains readable via text/icons, never animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* THIN-SCROLL-01 — Thin Minimal Scrollbar with a red-themed thumb (2026-10-19:
+      now GLOBAL — the shared definition lives in this stylesheet, which both
+      entry points (popup.tsx AND settings.tsx) import, so Main Popup, Edit
+      Snippet, and Settings all receive it through the existing architecture;
+      pages opt in per scroll container via the `.nm-scrollbar` class — NOT
+      globally forced onto every element. History note (turn 18): several
+      containers previously carried a `no-scrollbar` class that was NEVER
+      actually defined in CSS — a no-op, so those elements showed the browser's
+      classic scrollbar all along (the reported All Category dropdown defect);
+      they now opt into this shared utility instead. Colors come from the
+      --red-scrollbar-* tokens above (derived from the locked --red-brand).
+      Standards-based `scrollbar-width`/`scrollbar-color` first (native thin
+      rendering in Chromium 121+/Firefox), with narrowly scoped -webkit-*
+      fallbacks for older Chromium. ~6px keeps a usable drag target; the
+      extension is single-theme (locked Red Glass-Claymorphism, ADR-009). */
+.nm-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--red-scrollbar-thumb) transparent;
+}
+.nm-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.nm-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nm-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--red-scrollbar-thumb);
+  border-radius: 9999px;
+}
+.nm-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--red-scrollbar-thumb-hover);
+}
+
+/* 6. Compact Icon Button: scaled glass-clay (locked shadows would overwhelm
+      an 8-9px control — documented usability exception) */
+.nm-icon-btn {
+  background: rgba(255, 255, 255, 0.45);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 6px 14px 0 rgba(208, 2, 5, 0.22),
+    inset -3px -3px 8px 0 rgba(208, 2, 5, 0.22),
+    inset 0 4px 9px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  transition: all 0.2s ease-in-out;
+}
+
+.nm-icon-btn:not(:disabled):hover {
+  background: rgba(208, 2, 5, 0.25);
+  box-shadow:
+    0 8px 16px 0 rgba(208, 2, 5, 0.28),
+    inset 0 -4px 8px 0 rgba(208, 2, 5, 0.5),
+    inset 0 3px 7px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.nm-icon-btn:active {
+  background: rgba(208, 2, 5, 0.35);
+  box-shadow:
+    inset 4px 4px 8px rgba(120, 0, 3, 0.45),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.45);
+  transform: none;
+}
+
+/* Toggled/active icon state: permanent red inset (scaled) */
+.nm-icon-btn-inset {
+  background: rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    inset 4px 4px 8px rgba(208, 2, 5, 0.3),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.2s ease-in-out;
+}
+
+.nm-icon-btn-inset:hover {
+  background: rgba(255, 255, 255, 0.38);
+  box-shadow:
+    inset 4px 4px 8px rgba(208, 2, 5, 0.3),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+}
+
+/* Success / Copied (semantic green preserved, glass material) */
+.nm-success-inset {
+  background: rgba(209, 250, 229, 0.6);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    inset 3px 3px 6px rgba(5, 150, 105, 0.25),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(167, 243, 208, 0.8);
+  color: #047857;
+}
+
+/* Danger / Trash (semantic rose preserved on light glass) */
+.nm-danger-raised {
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 8px 18px 0 rgba(190, 18, 60, 0.22),
+    inset -3px -4px 8px 0 rgba(190, 18, 60, 0.2),
+    inset 0 4px 9px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(254, 205, 211, 0.7);
+  color: #be123c;
+  transition: all 0.2s ease-in-out;
+}
+
+.nm-danger-raised:not(:disabled):hover {
+  background: rgba(190, 18, 60, 0.18);
+  box-shadow:
+    0 10px 20px 0 rgba(190, 18, 60, 0.28),
+    inset -3px -4px 8px 0 rgba(190, 18, 60, 0.4),
+    inset 0 4px 9px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.nm-danger-raised:active {
+  background: rgba(190, 18, 60, 0.3);
+  box-shadow:
+    inset 4px 4px 8px rgba(120, 0, 20, 0.4),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.4);
+  transform: none;
+}
+
+/* 7. Category Color Swatches — inline backgroundColor remains the body;
+      material via red-tinted contact shadow + white inner highlight only */
+.nm-color-swatch {
+  box-shadow:
+    0 6px 12px 0 rgba(208, 2, 5, 0.3),
+    inset 0 3px 6px 0 rgba(255, 255, 255, 0.6),
+    inset -2px -3px 6px 0 rgba(120, 0, 3, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.15s ease-in-out;
+}
+
+.nm-color-swatch:hover {
+  box-shadow:
+    inset 3px 3px 6px rgba(120, 0, 3, 0.35),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.4),
+    0 3px 6px rgba(208, 2, 5, 0.2);
+}
+
+.nm-color-swatch-selected {
+  box-shadow:
+    inset 3px 3px 6px rgba(120, 0, 3, 0.4),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.4),
+    0 2px 6px rgba(208, 2, 5, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.95);
+  transition: all 0.15s ease-in-out;
+}
+
+/* Glass Dropdown Surface */
+.nm-dropdown-panel {
+  background: rgba(255, 255, 255, 0.75);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 18px 40px -8px rgba(140, 0, 3, 0.35),
+    inset 0 2px 6px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* Dropdown Item States */
+.nm-menu-item-unselected {
+  background: transparent;
+  transition: all 0.15s ease-out;
+}
+.nm-menu-item-unselected:hover {
+  background: rgba(208, 2, 5, 0.12);
+}
+.nm-menu-item-selected {
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 4px 4px 8px rgba(208, 2, 5, 0.25),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================================================
+   Permanent Inset Cards & Section Containers (glass surfaces, scaled
+   shadows to avoid muddy stacking inside the popup — documented exception)
+   ========================================================================== */
+
+/* 9. Snippet Card: glass-clay surface, component geometry preserved */
+.nm-static-inset-card {
+  background-color: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    12px 12px 26px 0 rgba(208, 2, 5, 0.3),
+    inset -5px -5px 12px 0 rgba(208, 2, 5, 0.3),
+    inset 0 8px 18px 0 rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.nm-static-inset-card:hover {
+  background-color: rgba(255, 255, 255, 0.38);
+  box-shadow:
+    12px 12px 26px 0 rgba(208, 2, 5, 0.34),
+    inset -5px -5px 12px 0 rgba(208, 2, 5, 0.35),
+    inset 0 8px 18px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Selected Snippet Card: red accent border, stays glass */
+.nm-static-inset-card-selected {
+  background-color: rgba(255, 255, 255, 0.34);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    12px 12px 26px 0 rgba(208, 2, 5, 0.34),
+    inset -5px -5px 12px 0 rgba(208, 2, 5, 0.32),
+    inset 0 8px 18px 0 rgba(255, 255, 255, 0.85),
+    0 0 14px 0 rgba(208, 2, 5, 0.3);
+  border: 2px solid rgba(208, 2, 5, 0.65);
+}
+
+/* 10. Settings Major Section Container: glass-clay (scaled) */
+.nm-static-inset-section {
+  background-color: rgba(255, 255, 255, 0.28);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    10px 10px 24px 0 rgba(208, 2, 5, 0.25),
+    inset -5px -5px 12px 0 rgba(208, 2, 5, 0.28),
+    inset 0 8px 18px 0 rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Nested Subsection: restrained translucent treatment */
+.nm-static-inset-subsection {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 3px 3px 8px rgba(208, 2, 5, 0.2),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+/* Semantic tinted sections: translucent hue glass, meaning preserved */
+.nm-static-inset-danger-section {
+  background: rgba(254, 226, 229, 0.45);
+  box-shadow:
+    inset 3px 3px 8px rgba(190, 18, 60, 0.18),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(254, 205, 211, 0.7);
+}
+
+.nm-static-inset-warn-section {
+  background: rgba(254, 243, 199, 0.45);
+  box-shadow:
+    inset 3px 3px 8px rgba(180, 83, 9, 0.18),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(253, 230, 138, 0.7);
+}
+
+.nm-static-inset-info-section {
+  background: rgba(219, 234, 254, 0.4);
+  box-shadow:
+    inset 3px 3px 8px rgba(29, 78, 216, 0.16),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(191, 219, 254, 0.7);
+}
+
+
+/* Scoped Rich Editor Live Formatting Styles */
+/* Restores semantic element appearance reset by Tailwind Preflight */
+.rich-editor-content a,
+[data-testid="editor-surface"] a {
+  color: #b91c1c;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: text;
+}
+
+.rich-editor-content a:hover,
+[data-testid="editor-surface"] a:hover {
+  color: #991b1b;
+}
+
+.rich-editor-content ul,
+[data-testid="editor-surface"] ul {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  padding-left: 0.25rem !important;
+}
+
+.rich-editor-content ul li,
+[data-testid="editor-surface"] ul li {
+  display: list-item !important;
+  margin-top: 0.2rem !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.rich-editor-content ul ul,
+[data-testid="editor-surface"] ul ul {
+  list-style-type: circle !important;
+  margin-left: 1.25rem !important;
+}
+
+.rich-editor-content ul ul ul,
+[data-testid="editor-surface"] ul ul ul {
+  list-style-type: square !important;
+}
+
+.rich-editor-content ol,
+[data-testid="editor-surface"] ol {
+  list-style-type: decimal !important;
+  margin-left: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  padding-left: 0.25rem !important;
+}
+
+.rich-editor-content ol li,
+[data-testid="editor-surface"] ol li {
+  display: list-item !important;
+  margin-top: 0.2rem !important;
+  margin-bottom: 0.2rem !important;
+}
+
+.rich-editor-content ol ol,
+[data-testid="editor-surface"] ol ol {
+  list-style-type: lower-alpha !important;
+  margin-left: 1.25rem !important;
+}
+
+.rich-editor-content ol ol ol,
+[data-testid="editor-surface"] ol ol ol {
+  list-style-type: lower-roman !important;
+}
+
+.rich-editor-content blockquote,
+[data-testid="editor-surface"] blockquote {
+  border-left: 3px solid #c11a1d;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  color: #475569;
+  font-style: italic;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.rich-editor-content h1,
+[data-testid="editor-surface"] h1 {
+  font-size: 1.375rem !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  color: #0f172a;
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.375rem !important;
+}
+
+.rich-editor-content h2,
+[data-testid="editor-surface"] h2 {
+  font-size: 1.15rem !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  color: #1e293b;
+  margin-top: 0.625rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+.rich-editor-content h3,
+[data-testid="editor-surface"] h3 {
+  font-size: 1.025rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  color: #334155;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+.rich-editor-content p,
+[data-testid="editor-surface"] p {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  font-size: 14px;
+  line-height: 1.625;
+}
+
+.rich-editor-content s,
+.rich-editor-content strike,
+[data-testid="editor-surface"] s,
+[data-testid="editor-surface"] strike {
+  text-decoration: line-through;
+}

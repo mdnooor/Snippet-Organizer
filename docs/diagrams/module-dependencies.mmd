@@ -1,0 +1,63 @@
+flowchart LR
+  subgraph src["src/ (verified imports)"]
+    types["types.ts"]
+    sutils["shortcutUtils.ts"]
+    db["db.ts"]
+    pref["popupRefresh.ts"]
+    APP["App.tsx"]
+    MP["components/MainPopup.tsx"]
+    SAF["components/SearchAndFilters.tsx"]
+    CARD["components/SnippetCard.tsx"]
+    ED["components/SnippetEditorModal.tsx"]
+    PV["components/SnippetPreviewModal.tsx"]
+    HDR["components/Header.tsx"]
+    FOOT["components/Footer.tsx"]
+    GLOGO["components/GoogleDriveLogo.tsx"]
+    SMOD["components/SettingsModal.tsx"]
+    SV["components/SettingsView.tsx"]
+    subgraph gdrive["gdrive/"]
+      auth["auth.ts"]
+      conn["connection.ts"]
+      dc["driveClient.ts"]
+      bk["backup.ts"]
+      gth["gather.ts"]
+      snap["snapshot.ts"]
+      sstore["snapshotStore.ts"]
+      rst["restore.ts"]
+      cfl["conflict.ts"]
+      gtypes["types.ts (gdrive)"]
+    end
+  end
+
+  APP --> MP
+  APP --> SMOD
+  SMOD --> SV
+  MP --> db
+  MP --> pref
+  MP --> SAF
+  MP --> CARD
+  MP --> ED
+  MP --> PV
+  MP --> HDR
+  MP --> FOOT
+  SV --> FOOT
+  FOOT --> GLOGO
+  ED --> db
+  SV --> db
+  db --> types
+  db --> sutils
+  pref -->|"injected deps only"| db
+  conn --> auth
+  conn --> gtypes
+  auth --> gtypes
+  bk --> gth
+  bk --> snap
+  bk --> dc
+  gth --> db
+  rst --> cfl
+  rst --> dc
+  rst --> gtypes
+  sstore --> gtypes
+
+  classDef inferred fill:#f2f2f2,stroke:#999,stroke-dasharray: 4;
+  class sstore inferred;

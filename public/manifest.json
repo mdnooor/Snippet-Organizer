@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Snippet Organizer",
+  "version": "0.1.0",
+  "description": "Personal snippet and productivity organizer Chrome extension with quick search, categories, and one-click copy.",
+  "action": {
+    "default_title": "Snippet Organizer",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
+  },
+  "permissions": ["storage", "identity"],
+  "oauth2": {
+    "client_id": "1085314759026-uajgt850sfcnga9t1v3n08urm2hibj63.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/drive.appdata"]
+  },
+  "commands": {
+    "_execute_action": {
+      "description": "Open the Snippet Organizer popup"
+    },
+    "toggle-organizer": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+X"
+      },
+      "description": "Open or close Snippet Organizer (toggles the floating window; opens the docked popup where Chrome supports it)"
+    }
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  }
+}

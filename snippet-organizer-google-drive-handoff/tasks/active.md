@@ -1,0 +1,5 @@
+# Active Task
+
+No active task. **Turn 19 — official Google Drive logo in the footer** was executed 2026-10-20 and closed **`implemented-unverified`**: the turn-17 generic Google "G" (`GoogleLogo.tsx`, deleted) was replaced by the official Drive triangular logo (`src/components/GoogleDriveLogo.tsx`, inline SVG, canonical 2020 tricolor geometry — no repo asset existed; no dependency). Footer states unchanged: connected = static logo, checking = pulse (real probe), disconnected = neutral dot; labels/tooltips/layout untouched; zero connection-logic, permission, or manifest changes. Battery 155/155, lint 0, vite build 0, zip verified — in-Chrome visuals user-owned (no Chrome runtime here).
+
+Drive safety (carried from PR-1/1B/1C, re-pinned by tests): Refresh only READS `gdriveUserDisconnected` via the probe — never clears it, never prompts, never mutates/uploads/deletes snapshots; explicit Connect stays the only reconnect path. Earlier pending user-owned checks: PR-1 report §8–§9 Drive manual verification; manifest `key` still unpinned (CWS blocker); no sync/GD-06/§17 work; no new dependencies; no scope/permission change.

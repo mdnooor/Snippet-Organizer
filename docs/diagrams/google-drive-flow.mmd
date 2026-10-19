@@ -1,0 +1,18 @@
+flowchart TD
+  START["Popup open / Refresh click / Settings Drive action"] --> FLAG{"gdriveUserDisconnected<br/>set in chrome.storage.local?"}
+  FLAG -->|"yes"| DISC["Return 'disconnected' immediately<br/>ZERO token requests, ZERO network<br/>(pinned by gdrive-connection tests)"]
+  FLAG -->|"no"| SILENT["auth.ts: getAuthToken(interactive:false)"]
+  SILENT -->|"ok token"| ABOUT["connection.ts: GET drive/v3/about"]
+  SILENT -->|"interaction required"| NOTC["Report not-connected / interaction-required<br/>NEVER prompt from passive paths"]
+  ABOUT -->|"200 + user"| CONN["footer: connected + account (Settings)"]
+  ABOUT -->|"401"| EVICT["removeCachedAuthToken + one silent retry"]
+  ABOUT -->|"network fail"| NET["Report network error state"]
+  CONN --> USERACT{"User action?"}
+  USERACT -->|"Disconnect"| OFF["Evict token + persist gdriveUserDisconnected"]
+  OFF -.->|"blocks everything until explicit Connect"| FLAG
+  USERACT -->|"Connect (only reconnect path)"| INTER["auth.ts: getAuthToken(interactive:true)"]
+  INTER -->|"granted"| CLEAR["Clear disconnect flag (explicit user action only)"]
+  INTER -->|"denied"| ERR["Typed error surfaced in Settings"]
+
+  classDef guard fill:#ffe8e8,stroke:#a33;
+  class DISC,OFF guard;

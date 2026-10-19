@@ -1,0 +1,31 @@
+flowchart LR
+  subgraph Suites["tests/ (node:test via tsx, faked IO)"]
+    T1["gdrive-auth.test.ts (22)"]
+    T2["gdrive-connection.test.ts (19)"]
+    T3["gdrive-contract.test.ts (27)"]
+    T4["gdrive-backup.test.ts (28)"]
+    T5["gdrive-browse.test.ts (23)"]
+    T6["gdrive-restore.test.ts (28)"]
+    T7["popup-refresh.test.ts (8)"]
+  end
+
+  T1 --> A["gdrive/auth.ts"]
+  T2 --> C["gdrive/connection.ts"]
+  T2 -.->|"disconnect guard"| A
+  T3 --> D["db.ts + types.ts"]
+  T4 --> B["gdrive/backup.ts + gather + snapshot + snapshotStore"]
+  T4 -.-> D
+  T5 --> BR["gdrive/driveClient.ts (list/get/delete paths)"]
+  T6 --> R["gdrive/restore.ts + conflict.ts"]
+  T6 -.-> D
+  T7 --> P["popupRefresh.ts"]
+  T7 -.->|"wiring contract"| M["components/MainPopup.tsx (manual/source-verified)"]
+
+  subgraph NotCovered["NOT automated (manual only)"]
+    UI["React components rendering"]
+    SW["service-worker.js window logic"]
+    LIVE["Real chrome.identity / Drive HTTP"]
+  end
+
+  classDef manual fill:#fff4cc,stroke:#b58900;
+  class NotCovered manual;

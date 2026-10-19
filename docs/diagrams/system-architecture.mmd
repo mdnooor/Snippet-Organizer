@@ -1,0 +1,55 @@
+flowchart TB
+  subgraph Chrome["Chrome browser"]
+    SW["service-worker.js<br/>MV3 module worker<br/>floating window lifecycle"]
+    IDX[("IndexedDB<br/>snippet-organizer v1")]
+    CS[("chrome.storage.local<br/>prefs mirror, window state,<br/>gdriveUserDisconnected")]
+    TOK["chrome.identity<br/>OAuth token cache"]
+  end
+
+  subgraph Entries["Entry pages (Vite)"]
+    POP["popup.html → popup.tsx → App.tsx"]
+    SET["settings.html → settings.tsx"]
+    WEB["index.html → main.tsx<br/>(web demo, chrome stubbed)"]
+  end
+
+  subgraph UI["React components (src/components)"]
+    MP["MainPopup"]
+    SAF["SearchAndFilters"]
+    ED["SnippetEditorModal"]
+    PV["SnippetPreviewModal"]
+    CARD["SnippetCard"]
+    SV["SettingsView / SettingsModal"]
+    FOOT["Footer + GoogleDriveLogo"]
+  end
+
+  subgraph Services["Service layer (src/gdrive)"]
+    AUTH["auth.ts<br/>OAuth config + getAuthToken"]
+    CONN["connection.ts<br/>silent probe, disconnect guard"]
+    DC["driveClient.ts<br/>Drive REST v3"]
+    BK["backup/gather/snapshot/snapshotStore"]
+    RS["restore.ts + conflict.ts"]
+  end
+
+  ORCH["popupRefresh.ts<br/>refresh orchestrator"]
+  DB["db.ts<br/>repository (only IndexedDB accessor)"]
+
+  POP --> MP
+  SET --> SV
+  MP --> SAF & CARD & ED & PV & FOOT
+  MP --> ORCH
+  ORCH --> DB
+  ORCH --> CONN
+  MP --> CONN
+  SV --> DB
+  SV --> AUTH & CONN & BK & RS
+  BK --> DC
+  RS --> DC
+  AUTH --> TOK
+  CONN --> CS
+  SW --> CS
+  SW --> POP
+  DB --> IDX
+  DC -->|"HTTPS drive/v3 (appDataFolder)"| GDRV["Google Drive API"]
+
+  classDef ext fill:#fff4cc,stroke:#b58900;
+  class GDRV,TOK ext;

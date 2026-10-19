@@ -1,0 +1,23 @@
+{
+  "package": "Snippet Organizer Google Drive Integration Handoff",
+  "target": "DeepSeek Harness + GLM",
+  "date": "2026-10-18",
+  "files": [
+    "BACKLOG.md",
+    "HARNESS_MASTER_PROMPT.md",
+    "README.md",
+    "tasks/GD-00-project-audit-and-decisions.spec.md",
+    "tasks/GD-01-drive-domain-and-data-contract.spec.md",
+    "tasks/GD-02-google-oauth-and-drive-client.spec.md",
+    "tasks/GD-03-create-and-version-cloud-backups.spec.md",
+    "tasks/GD-04-browse-download-and-manage-backups.spec.md",
+    "tasks/GD-05-restore-preview-and-conflict-resolution.spec.md",
+    "tasks/GD-06-explicit-sync-and-sync-conflicts.spec.md",
+    "tasks/GD-07-settings-ui-and-accessibility.spec.md",
+    "tasks/GD-08-test-hardening-and-docs-handoff.spec.md",
+    "tasks/active.md",
+    "tasks/completed.md",
+    "templates/TASK-RECORD.md"
+  ],
+  "note": "Specs are plans. GD-00 must verify repository-specific facts before implementation."
+}

@@ -49,9 +49,30 @@ Three Vite entries converge on one React app. UI components never touch storage 
 
 Details: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) · [`docs/CODEBASE_MAP.md`](docs/CODEBASE_MAP.md) · diagrams in [`docs/diagrams/`](docs/diagrams/).
 
+## Install the Chrome Extension
+
+The easiest way to try Snippet Organizer is the packaged ZIP from the GitHub Releases:
+
+**Download:** [`snippet-organizer-chrome-extension.zip`](https://github.com/mdnooor/Snippet-Organizer/releases/download/v0.1.0/snippet-organizer-chrome-extension.zip) — from the [Releases page](https://github.com/mdnooor/Snippet-Organizer/releases/latest) (this link always points to the newest release).
+
+1. Download `snippet-organizer-chrome-extension.zip` from the Releases page above.
+2. **Extract the ZIP into a folder** on your computer (right-click → *Extract All…*).
+3. Open Google Chrome and navigate to `chrome://extensions/`.
+4. Turn on **Developer mode** (toggle in the top-right corner).
+5. Click **Load unpacked**.
+6. Select the **extracted folder** — the one that directly contains `manifest.json`.
+
+> **Note:** Chrome's **Load unpacked** option requires the **extracted folder**, not the ZIP file itself. Selecting the ZIP will not work.
+
+After loading, **Snippet Organizer** appears in your extensions list. Open it from Chrome's Extensions menu: click the **puzzle-piece icon** in the toolbar (or the pin icon to pin it) and click **Snippet Organizer** — or press `Ctrl+Shift+X` to toggle its floating window.
+
+**Updating to a newer version:** download the latest ZIP from the Releases page, extract it into a folder (you can replace the old extracted folder), then go to `chrome://extensions/` and click the **reload (↻) icon** on the Snippet Organizer card. Your snippets and settings are stored locally in your browser and survive updates.
+
+The ZIP contains only the runtime files Chrome needs (`manifest.json` at the root, popup/settings pages, the service worker, icons, and bundled JS/CSS). Prefer building from source? See the next section.
+
 ## Installation (load the unpacked extension)
 
-The extension is not on the Chrome Web Store. Run it from source:
+Build-it-yourself alternative to the packaged ZIP above — the extension is not on the Chrome Web Store. Run it from source:
 
 1. Get the repository: `git clone https://github.com/mdnooor/Snippet-Organizer.git`
 2. Install dependencies (build tooling only — runtime data stays in your browser): `npm install`

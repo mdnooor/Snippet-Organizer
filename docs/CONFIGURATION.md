@@ -8,7 +8,7 @@
 - `permissions: ["storage", "identity"]`; `oauth2.client_id` + `scopes: ["https://www.googleapis.com/auth/drive.appdata"]` — client id is public; **changing scopes/client requires updating `src/gdrive/auth.ts` expectations and the Google Cloud Console pairing**.
 - `commands`: `_execute_action`, `toggle-organizer` (suggested `Ctrl+Shift+X`; user-rebindable via `preferences.uiShortcuts` in-app).
 - `background.service_worker: service-worker.js` (`type: module`).
-- **No `key`** — deliberate open item (CWS blocker; see [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md)).
+- **`key` (pinned 2026-10-20)** — base64 SPKI **public** key; yields the permanent extension ID `kkfbhahpkhjadmiijcpfinlengmgiipn` on every machine/build (unpacked ID otherwise derives from the install folder path, which Chrome randomizes per ZIP install). The matching private key is NOT in the repo — owner keeps it at `%USERPROFILE%\chrome-identity\snippet-organizer.pem` (needed only for future CRX signing). **Google Cloud Console OAuth client must authorize this extension ID.**
 
 ## `vite.config.ts`
 

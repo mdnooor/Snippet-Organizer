@@ -5,6 +5,12 @@ Claims are tagged per the evidence standard: `[SOURCE-VERIFIED]`, `[COMMAND-VERI
 
 ---
 
+## [2026-10-20] Turn 24: stable extension identity — manifest `key` pinned (ID `kkfbhahpkhjadmiijcpfinlengmgiipn`)
+
+Evidence: unpacked-extension IDs are install-path hashes — both Chrome-recorded installs of the release ZIP (`napaoifgfbgjechcnjkabilgbomogobi` in Profile 6, `nephfgcdhhfcjocfbbplbjlecpkjlali` in Default) were recomputed exactly as SHA256(UTF-16LE path)→hex→a–p, with per-install random `UnpackedExtensions\…_<n>` folders and `keyInManifest=false`; no `.pem`/`.crx` exists anywhere → the old IDs are mathematically unrecoverable as manifest keys. Fix (user-authorized): RSA-2048 keypair generated **outside the repo** (`%USERPROFILE%\chrome-identity\snippet-organizer.pem`); public SPKI pinned as `manifest.json:key` → permanent ID `kkfbhahpkhjadmiijcpfinlengmgiipn` (key→ID recomputation verified on the built artifact; OAuth client_id/scopes/permissions byte-unchanged; battery 155/155, lint 0, build 0; private key absence in ZIP/manifest scanned). Release `v0.1.0` asset replaced in place (single asset, same filename, 14 runtime entries incl. 1024px logo, demo chunk excluded; download verified 200 @ 1,150,272 bytes). Docs aligned: KNOWN_LIMITATIONS #1 resolved, CONFIGURATION, BUILD_AND_RELEASE, README status. **Pending user action: authorize the new ID in the Google Cloud Console OAuth client; then remove old unpacked copies and reload the new ZIP.**
+
+---
+
 ## [2026-10-20] Turn 23: hotfix — restored `icons/icon-master-1024.png` in Release v0.1.0 ZIP
 
 Root cause: turn 22 packaging checked manifest/HTML references but missed the TSX runtime reference — `src/components/Header.tsx:40` renders `icons/icon-master-1024.png` in the app header, so the installed extension's header logo was missing. No code/manifest change required; the ZIP (built from the same verified `dist/`) now includes the original 984,700-byte PNG (verified 1024×1024 inside the archive). Corrected ZIP = 14 entries, 1,149,919 bytes; secret scan clean; `*.zip` ignore untouched. Release `v0.1.0` asset replaced in place (asset 657507077 deleted, corrected uploaded under the identical filename — no duplicate, no other asset touched); download re-verified unauthenticated HTTP 200 @ 1,149,919 bytes; README links unchanged and still valid. Chrome runtime verification remains owner-owned.

@@ -3,6 +3,7 @@
   "name": "Snippet Organizer",
   "version": "0.1.0",
   "description": "Personal snippet and productivity organizer Chrome extension with quick search, categories, and one-click copy.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2Q5wrW4qJDTFnEVddFX0muW9Zdg5K3+OHB6ptSICpboa/PTxq7a5aG9eUxUIfNN6AH9r3vgcFDuSMPJurW3ToOAtnOqGY6kOJa/83HJwMD3Wad04MF2ItpgBl5L41koF0TECUyzJmBRGS2QWVzevqawKTkLoscU6EwS85VWXD4Ll4WBaCPhws2jCel5yWQVp0YgHxSeEUC63p5r/HFG4UC2JPaM+uO+ulJw1UO/1KYTy4yba/CA2iE0MK5q8W/9qe9YL2d0AJbreNeeMiF7U1wwT5RoTEGgeNDAKJqHGv0M6GMhu9LFATLWDDEaLS9bKrxd5T85pE2dFxD8QS5e84QIDAQAB",
   "action": {
     "default_title": "Snippet Organizer",
     "default_popup": "popup.html",

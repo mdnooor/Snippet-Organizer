@@ -118,7 +118,7 @@ Details: [`docs/DATA_MODEL.md`](docs/DATA_MODEL.md) · [`docs/STORAGE_AND_PERSIS
 
 Known limitations (full list: [`docs/KNOWN_LIMITATIONS.md`](docs/KNOWN_LIMITATIONS.md)):
 
-- The manifest's `key` field is unpinned — required before any Chrome Web Store release (extension ID ↔ OAuth client pairing).
+- The extension ID is now stable: `manifest.json` pins a public `key`, so every build/ZIP gets the permanent ID `kkfbhahpkhjadmiijcpfinlengmgiipn`. **Your Google Cloud OAuth client must authorize this extension ID** (one-time console update; Drive sign-in fails until it is saved).
 - **Automatic synchronization is deferred by decision (GD-06)** and intentionally absent; do not expect background sync.
 - UI rendering and real `chrome.*` behavior are verified manually in Chrome, not by automated tests; React components have no automated UI tests.
 - Packaging requires `python3` (or the documented PowerShell workaround).

@@ -48,9 +48,9 @@ Validation gates (all green at baseline): **17 entries**, all forward-slash (Win
 4. Drive (optional): Connect → identity shown → create/list/download/delete snapshot → restore preview → Disconnect → verify nothing touches Drive afterward.
 5. Record results with `[RUNTIME-VERIFIED]` only for steps actually performed.
 
-## Release readiness (not done)
+## Release readiness
 
-- **Unpinned manifest `key`**: CWS re-assigns the extension ID on upload; the OAuth client is (or would be) paired to the current unpacked ID — store release requires generating a key, pinning it in `public/manifest.json`, and re-pairing the client. Tracked in [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md).
+- **Identity (resolved 2026-10-20):** `manifest.json` pins the public `key` → stable ID `kkfbhahpkhjadmiijcpfinlengmgiipn` for unpacked loads and ZIP installs alike. One-time migration: remove old unpacked copies, load the new package, and authorize the new ID in the Google Cloud Console OAuth client. Private signing key stays outside the repo.
 - No store listing assets/screenshots pipeline exists. No signing/publish step is automated (and must not be — store submission is manual).
 
 Also see: [SECURITY_AND_PRIVACY.md](SECURITY_AND_PRIVACY.md) for pre-release considerations.

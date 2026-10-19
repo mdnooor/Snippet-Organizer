@@ -5,6 +5,12 @@ Claims are tagged per the evidence standard: `[SOURCE-VERIFIED]`, `[COMMAND-VERI
 
 ---
 
+## [2026-10-20] Turn 23: hotfix — restored `icons/icon-master-1024.png` in Release v0.1.0 ZIP
+
+Root cause: turn 22 packaging checked manifest/HTML references but missed the TSX runtime reference — `src/components/Header.tsx:40` renders `icons/icon-master-1024.png` in the app header, so the installed extension's header logo was missing. No code/manifest change required; the ZIP (built from the same verified `dist/`) now includes the original 984,700-byte PNG (verified 1024×1024 inside the archive). Corrected ZIP = 14 entries, 1,149,919 bytes; secret scan clean; `*.zip` ignore untouched. Release `v0.1.0` asset replaced in place (asset 657507077 deleted, corrected uploaded under the identical filename — no duplicate, no other asset touched); download re-verified unauthenticated HTTP 200 @ 1,149,919 bytes; README links unchanged and still valid. Chrome runtime verification remains owner-owned.
+
+---
+
 ## [2026-10-20] Turn 22: packaged installable ZIP as GitHub Release v0.1.0 + README install section
 
 Fresh clean build → `snippet-organizer-chrome-extension.zip` (13 runtime-only entries: manifest at root, popup/settings/service-worker, 4 icons, 5 bundled JS/CSS chunks — import graph verified closed; excluded `index.html` web demo, `main-*.js` demo chunk, `icons/README.txt`; no sourcemaps/secrets; manifest JSON valid, all references resolved). Published as asset of **GitHub Release `v0.1.0`** (user-authorized; repository had no prior release/tag) — download verified unauthenticated HTTP 200 (164,786 bytes). README: new `## Install the Chrome Extension` section (verified download URLs, extract→Load-unpacked flow, update flow, extracted-folder-not-ZIP note); source-build section retained as alternative. `*.zip` ignore rule untouched — ZIP not committed to the source tree. Battery 155/155, lint 0, build 0 re-verified this turn; only `README.md` + this changelog committed (`373aa5a` → `cdd1d4b` → changelog commit).

@@ -5,6 +5,12 @@ Claims are tagged per the evidence standard: `[SOURCE-VERIFIED]`, `[COMMAND-VERI
 
 ---
 
+## [2026-10-20] Turn 22: packaged installable ZIP as GitHub Release v0.1.0 + README install section
+
+Fresh clean build → `snippet-organizer-chrome-extension.zip` (13 runtime-only entries: manifest at root, popup/settings/service-worker, 4 icons, 5 bundled JS/CSS chunks — import graph verified closed; excluded `index.html` web demo, `main-*.js` demo chunk, `icons/README.txt`; no sourcemaps/secrets; manifest JSON valid, all references resolved). Published as asset of **GitHub Release `v0.1.0`** (user-authorized; repository had no prior release/tag) — download verified unauthenticated HTTP 200 (164,786 bytes). README: new `## Install the Chrome Extension` section (verified download URLs, extract→Load-unpacked flow, update flow, extracted-folder-not-ZIP note); source-build section retained as alternative. `*.zip` ignore rule untouched — ZIP not committed to the source tree. Battery 155/155, lint 0, build 0 re-verified this turn; only `README.md` + this changelog committed (`373aa5a` → `cdd1d4b` → changelog commit).
+
+---
+
 ## [2026-10-20] Turn 21: GitHub repository preparation & first push
 
 Landing-page `README.md` rewrite (implemented features only; GD-06 stated deferred; verified links/commands), `.gitignore` extension (legacy `*-1.*`, `200`/`350`, `metadata.json`, `bun.lock`, `snippet-organizer-document/`, `*.zip` — all kept on disk, excluded from repo), full validation (155/155, lint 0, build 0, dist runtime files verified, 167 links/0 broken), repo initialized (`main`), staged-set secret scan clean, **pushed to `https://github.com/mdnooor/Snippet-Organizer.git` `main` as `cdda954`** (user-approved force-replace of the older plain-JS snapshot `8d7aa96`; details in `reports/GITHUB_REPOSITORY_PREPARATION.md`). No `src/` changes. PAT never stored in repo/files/remote URL.

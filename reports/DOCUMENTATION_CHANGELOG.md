@@ -5,6 +5,12 @@ Claims are tagged per the evidence standard: `[SOURCE-VERIFIED]`, `[COMMAND-VERI
 
 ---
 
+## [2026-10-20] Turn 21: GitHub repository preparation & first push
+
+Landing-page `README.md` rewrite (implemented features only; GD-06 stated deferred; verified links/commands), `.gitignore` extension (legacy `*-1.*`, `200`/`350`, `metadata.json`, `bun.lock`, `snippet-organizer-document/`, `*.zip` — all kept on disk, excluded from repo), full validation (155/155, lint 0, build 0, dist runtime files verified, 167 links/0 broken), repo initialized (`main`), staged-set secret scan clean, **pushed to `https://github.com/mdnooor/Snippet-Organizer.git` `main` as `cdda954`** (user-approved force-replace of the older plain-JS snapshot `8d7aa96`; details in `reports/GITHUB_REPOSITORY_PREPARATION.md`). No `src/` changes. PAT never stored in repo/files/remote URL.
+
+---
+
 ## [2026-10-20] Version 1 documentation & architecture audit (turn 20)
 
 Documentation-only audit for the V1 feature-complete baseline: 24 new `docs/` documents (index, product/architecture/codebase/code-graph/data/persistence/Drive/auth/backup/UI/testing/build/security/configuration/baseline/limits/debt/roadmap/glossary/changelog-pointer), 6 Mermaid diagrams (`docs/diagrams/`), generated inventories via new `scripts/generate-doc-inventory.mjs` (Node fs only — 157 files / 41 source files / 15,817 lines / 21 deps), 8 `reports/` audit documents, root `README.md` corrected (stale 712×512 → locked 480×600, ADR-002 Am. 3) + `AGENTS.md` V1 addendum. Existing canonical docs (`project-knowledge/`, `design/`, `google-drive-integration/`, `tasks/`) and all historical GD/PR reports preserved and indexed (`reports/README.md`). Validation `[COMMAND-VERIFIED]`: battery **155/155**, lint 0, `vite build` 0 (624 ms), `node scripts/generate-doc-inventory.mjs` exit 0, **153 relative markdown links / 0 broken**, one `flowchart` per `.mmd`; packaging via documented PowerShell workaround (17 forward-slash entries, manifest byte-identical) — `npm run build` pack step fails on this machine for missing `python3` (environment, recorded). **`src/`, `public/`, `tests/` untouched by this audit** (timestamp-verified). No commit/push performed.

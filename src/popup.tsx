@@ -11,10 +11,28 @@ if (rootEl) {
 
   const chromeApi = (globalThis as unknown as { chrome?: any }).chrome;
 
+  // CONTEXT-STALE-01: an extension reload/update invalidates the chrome.* bindings of
+  // any page that stays open across it (the floating window is long-lived by design).
+  // In an invalidated context `chrome.runtime.id` is undefined (and later API *calls*
+  // throw "Extension context invalidated"), so every fire-without-user-action chrome.*
+  // call below checks validity first. This is a lifecycle guard, not error suppression:
+  // unrelated exceptions still propagate, and valid contexts behave identically.
+  const extensionContextValid = (): boolean => {
+    try {
+      return Boolean(chromeApi?.runtime?.id);
+    } catch {
+      // Some Chrome builds throw on property access in an invalidated context.
+      return false;
+    }
+  };
+
   // Defensive check: if popup.html is somehow opened while floating mode is active,
   // ensure the action popup is detached, trigger the floating window, and close this docked popup.
-  if (!isFloating && chromeApi?.storage?.local?.get) {
+  if (!isFloating && extensionContextValid() && chromeApi?.storage?.local?.get) {
     chromeApi.storage.local.get(['isFloatingMode'], (data: any) => {
+      if (!extensionContextValid()) {
+        return;
+      }
       if (data?.isFloatingMode) {
         chromeApi.action?.setPopup?.({ popup: '' });
         chromeApi.runtime?.sendMessage?.({ type: 'OPEN_FLOATING_WINDOW' });
@@ -32,7 +50,7 @@ if (rootEl) {
     // (window.outerWidth/Height − window.innerWidth/Height) once on load so the
     // service worker can compensate the outer window size; without it the fixed canvas
     // is clipped by the caption-bar height. No-ops outside the extension (web demo).
-    if (chromeApi?.runtime?.sendMessage) {
+    if (extensionContextValid() && chromeApi?.runtime?.sendMessage) {
       chromeApi.runtime
         .sendMessage({
           type: 'CALIBRATE_FLOATING_FRAME',
@@ -45,6 +63,11 @@ if (rootEl) {
     }
 
     const reportFloatingPosition = () => {
+      // CONTEXT-STALE-01: skip entirely in an invalidated context (orphaned window
+      // after an extension reload) instead of throwing during unload.
+      if (!extensionContextValid()) {
+        return;
+      }
       const left = window.screenLeft ?? window.screenX;
       const top = window.screenTop ?? window.screenY;
       if (

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Snippet Organizer</title>
+<meta name="description" content="Privacy Policy for Snippet Organizer, a Chrome extension that stores snippets locally in your browser and offers optional Google Drive backup via the drive.appdata scope.">
+<style>
+:root{--bg:#faf7f5;--card:#ffffff;--ink:#2b2320;--muted:#6f625c;--accent:#c23b3b;--accent-dark:#a02e2e;--line:#eadfda;--chip:#f6ece8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.7;color:var(--ink);background:var(--bg)}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:var(--card);padding:8px 14px;border-radius:6px;z-index:10}
+header.site{background:var(--card);border-bottom:1px solid var(--line)}
+.nav{max-width:860px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:1.05rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand .dot{width:14px;height:14px;border-radius:4px;background:linear-gradient(135deg,var(--accent),#e0655e);display:inline-block}
+.nav a.link{color:var(--muted);text-decoration:none;font-size:.95rem}
+.nav a.link:hover,.nav a.link[aria-current="page"]{color:var(--accent)}
+.nav .spacer{flex:1}
+main{max-width:860px;margin:0 auto;padding:40px 20px 64px}
+h1{font-size:clamp(1.6rem,3.5vw,2.2rem);line-height:1.25}
+.meta{color:var(--muted);font-size:.92rem;margin:8px 0 26px}
+h2{font-size:1.25rem;margin:34px 0 10px;padding-top:10px}
+h3{font-size:1.02rem;margin:18px 0 6px}
+p,li{color:#43382f;font-size:.98rem}
+ul,ol{margin:8px 0 8px 22px}
+li{margin:4px 0}
+a{color:var(--accent)}
+a:hover{color:var(--accent-dark)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0}
+.note{background:var(--chip);border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:16px 0}
+code{background:var(--chip);padding:1px 6px;border-radius:5px;font-size:.9em}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.93rem;background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--chip);font-size:.88rem}
+tr:last-child td{border-bottom:none}
+footer{border-top:1px solid var(--line);background:var(--card)}
+.foot{max-width:860px;margin:0 auto;padding:26px 20px;color:var(--muted);font-size:.88rem}
+.foot a{color:var(--accent);text-decoration:none}
+@media (max-width:600px){main{padding:28px 16px 48px}.nav{padding:12px 16px}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <nav class="nav" aria-label="Main navigation">
+    <a class="brand" href="index.html"><span class="dot" aria-hidden="true"></span>Snippet Organizer</a>
+    <a class="link" href="index.html">Home</a>
+    <a class="link" href="privacy.html" aria-current="page">Privacy Policy</a>
+    <a class="link" href="terms.html">Terms of Service</a>
+    <span class="spacer"></span>
+    <a class="link" href="https://github.com/mdnooor/Snippet-Organizer">GitHub</a>
+  </nav>
+</header>
+<main id="main">
+  <h1>Privacy Policy</h1>
+  <p class="meta">Effective date: October 20, 2026 · Applies to the Snippet Organizer Chrome extension and its published website.</p>
+
+  <p>Snippet Organizer is a browser extension that helps you organize and reuse text snippets. It is <strong>local-first</strong>: your snippet content lives in your browser's storage on your device, and no data is sent anywhere unless <em>you</em> explicitly use the optional Google Drive backup feature. This policy describes exactly what the extension stores, what it accesses, and what it never does.</p>
+
+  <h2>1. Data stored locally in your browser</h2>
+  <p>The extension stores the following data only on your device, in two browser-provided storage areas:</p>
+  <ul>
+    <li><strong>IndexedDB database <code>snippet-organizer</code></strong> — your snippets (title, text content, category assignment, favorite flag, timestamps, soft-delete markers, and revision counters) and your categories (names and one of eight fixed color values).</li>
+    <li><strong><code>chrome.storage.local</code></strong> — a mirror of your display preferences, the state of the floating window, and the Google connection status described in section 2 (the connected account's email address and an explicit disconnect flag).</li>
+  </ul>
+  <p>Clearing your browser's extension data or uninstalling the extension removes this local data from your device.</p>
+
+  <h2>2. Google Account information and the optional Drive backup</h2>
+  <p>Google access is <strong>entirely optional</strong> and happens only after you press Connect in the extension's Settings page. Nothing related to Google is requested or transmitted before that explicit action.</p>
+  <h3>What permission is requested</h3>
+  <p>The extension requests exactly one Google OAuth scope:</p>
+  <ul>
+    <li><code>https://www.googleapis.com/auth/drive.appdata</code> — access limited to a single hidden, per-application folder (<code>appDataFolder</code>) inside your own Google Drive. The extension <strong>cannot</strong> see, search, read, or modify any other file or folder in your Drive.</li>
+  </ul>
+  <h3>What account information is accessed</h3>
+  <p>After you connect, the extension stores the connected account's <strong>email address</strong> locally (via <code>chrome.storage.local</code>) so the Settings page can show you which account is connected. Authentication is performed by Chrome's built-in identity system (<code>chrome.identity</code>); you authenticate against Google directly, and the extension does not collect passwords or profile photos.</p>
+  <h3>OAuth tokens</h3>
+  <p>Access tokens are obtained and cached by Chrome's identity infrastructure on your device. The extension's code does not store, copy, or transmit tokens to any party other than Google's API endpoints. When you press Disconnect, the extension clears the cached token and sets a local flag so no further Google access can occur from passive actions.</p>
+  <h3>What backup files contain and where they live</h3>
+  <p>Backups are JSON snapshot files that <em>you</em> create by an explicit action. They are stored only in the extension's <code>appDataFolder</code> in your Drive. A snapshot contains a full copy of your snippet data at that moment: snippet titles and text content, categories, favorites, timestamps, revision metadata, and your preferences. Snapshots are visible only to this extension's permission scope and to you (via the extension or Drive's hidden-app-data mechanisms). Backups never happen automatically and never run in the background.</p>
+  <h3>Operations performed on Drive</h3>
+  <ul>
+    <li><strong>Create</strong> — upload a new snapshot file when you choose to back up.</li>
+    <li><strong>List &amp; download</strong> — enumerate and read snapshots in the app folder so you can pick one to restore.</li>
+    <li><strong>Restore</strong> — import a chosen snapshot into your local database, with conflict detection against locally changed snippets.</li>
+    <li><strong>Delete</strong> — remove a snapshot from the app folder when you delete it in Settings.</li>
+  </ul>
+
+  <h2>3. What Snippet Organizer never does</h2>
+  <ul>
+    <li>It does not send your snippets, settings, or Google data to any developer-controlled server. The project operates no backend.</li>
+    <li>It contains no analytics, telemetry, advertising, tracking, or third-party SDKs.</li>
+    <li>It does not sell, rent, or share your data with any third party.</li>
+    <li>It does not read data from any Drive location outside the extension's own <code>appDataFolder</code>.</li>
+    <li>It does not perform automatic sync or background network activity; the only network calls are to Google's Drive API endpoints (<code>www.googleapis.com</code>) over HTTPS, made when you use a backup/restore action.</li>
+  </ul>
+
+  <h2>4. Google API Services User Data Policy and Limited Use</h2>
+  <div class="note">
+    <p>Snippet Organizer's use of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">Google API Services User Data Policy</a>, including the <a href="https://developers.google.com/terms/api-services-user-data-policy#limited-use" rel="noopener">Limited Use requirements</a>.</p>
+  </div>
+  <p>Concretely: Google user data obtained through the <code>drive.appdata</code> scope is used solely to provide the backup and restore feature described above. It is not used for advertising, not sold, not shared for third-party AI or ML purposes, not transferred to third parties (other than to Google as part of operating the feature), and not used to determine creditworthiness or lending terms.</p>
+
+  <h2>5. Data retention and your controls</h2>
+  <ul>
+    <li><strong>Local data</strong> is kept until you delete individual snippets in the app, clear the extension's data, or uninstall the extension. Nothing expires automatically.</li>
+    <li><strong>Drive snapshots</strong> are kept until you delete them from the Settings page. There is no automatic deletion.</li>
+    <li><strong>Disconnect</strong> — Disconnecting in Settings clears the cached token and prevents further Google access from the extension.</li>
+    <li><strong>Revoke</strong> — You can revoke the extension's access at any time from your Google Account at <a href="https://myaccount.google.com/permissions" rel="noopener">myaccount.google.com/permissions</a>.</li>
+    <li><strong>Deletion of account data</strong> — Because all of your data is either on your device or in your own Drive, you can delete everything yourself: delete snippets and snapshots in the app, revoke access at the link above, and uninstall the extension. If you need help, contact us (section 8).</li>
+  </ul>
+
+  <h2>6. Third-party services</h2>
+  <p>The only third-party service involved is <strong>Google</strong>, through the Drive API used for the optional backup feature and Chrome's identity system. Google's handling of your data is governed by Google's own policies: <a href="https://policies.google.com/privacy" rel="noopener">Google Privacy Policy</a>, <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">Google API Services User Data Policy</a>, and <a href="https://developers.google.com/workspace/drive" rel="noopener">Google Drive API documentation</a>. The extension runs inside Chrome; browser-level data handling is governed by Google Chrome's policies. If the extension is later distributed through the Chrome Web Store, that store's own policies will additionally apply.</p>
+
+  <h2>7. Security</h2>
+  <p>Local data is stored using your browser's standard storage facilities on your device. Data in transit to Google uses HTTPS. Backup files are stored in your own Google Drive under Google's storage practices; the extension does not add its own encryption layer to snapshot files. No data passes through any system operated by the developer.</p>
+
+  <h2>8. Contact</h2>
+  <p>For privacy questions or requests regarding this policy, please open an issue at <a href="https://github.com/mdnooor/Snippet-Organizer/issues">github.com/mdnooor/Snippet-Organizer/issues</a> or contact the maintainer via <a href="https://github.com/mdnooor">the GitHub profile</a>.</p>
+
+  <h2>9. Changes to this policy</h2>
+  <p>If the extension's data handling changes, this policy will be updated in the project repository and the effective date above will be revised. Material changes to Google data handling will be described in the change history of the repository.</p>
+
+  <div class="note">
+    <p><strong>Honesty note:</strong> this policy describes the extension as it is implemented today (version 0.1.0). It makes no claims about future features, and it is not legal advice. Snippet Organizer is an independent project and is not affiliated with, endorsed by, or certified by Google.</p>
+  </div>
+</main>
+<footer>
+  <div class="foot">
+    <p>© 2026 Snippet Organizer project. Source: <a href="https://github.com/mdnooor/Snippet-Organizer">github.com/mdnooor/Snippet-Organizer</a>. Not affiliated with or endorsed by Google.</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -5,6 +5,12 @@ Claims are tagged per the evidence standard: `[SOURCE-VERIFIED]`, `[COMMAND-VERI
 
 ---
 
+## [2026-10-21] Turn 28: Release v0.1.0 asset replaced in place with CSP + context-guard build
+
+Same release (id 417783229, tag/title/URL unchanged), same filename `snippet-organizer-chrome-extension.zip`: old asset 657595337 (1,150,272 bytes, turn-24 build) deleted, new asset 660275135 uploaded (1,150,883 bytes, 15 entries) from the `ce217cd` build — deterministic rebuild proven (clean tree, hashes stable), ZIP entries byte-identical to dist, manifest key/client_id/scope/permissions unchanged, floating-mode.js present, zero inline scripts. Public download verified byte-for-byte equal to the new build (SHA256 match, 1,150,883 bytes); extracted-from-download manifest/icons checked. No new release/tag/draft created; no unrelated assets touched. Chrome install/sign-in/backup smoke tests remain owner-owned (no Chrome in this environment).
+
+---
+
 ## [2026-10-21] Turn 27: "Extension context invalidated" — stale-context diagnosis + targeted lifecycle guard (CONTEXT-STALE-01)
 
 Diagnosis `[SOURCE-VERIFIED]`: the manifest has NO `content_scripts`, `chrome_url_overrides`, `web_accessible_resources`, or `externally_connectable` — no code of this extension can execute in `chrome://newtab/`; the stack's `popup-Dd2A3BXH.js` is the extension-page bundle (popup/floating window), not a newtab script. "Extension context invalidated" by definition occurs only when an extension page survives a reload/update while its chrome.* bindings die — the reported error matches an orphaned popup/floating window opened before the turn-26 extension reload, throwing on its next chrome.* call, with the console attributed to the inspected tab. Root cause: stale context after manual extension reload; not reproducible in a fresh session. Minimal hardening (per lifecycle requirement, not suppression): `src/popup.tsx` gains `extensionContextValid()` (`chrome.runtime.id` check in a narrow try/catch) gating the three fire-without-user-action chrome.* sites — isFloatingMode probe (+ its async callback), CALIBRATE_FLOATING_FRAME send, and the beforeunload/pagehide position reporter. Valid contexts behave identically; unrelated exceptions propagate. Verified `[COMMAND-VERIFIED]`: lint 0, build 0 (bundle re-hashed `popup-Ddb_7luo.js`, guard emitted), battery 155/155, dist HTML still free of inline scripts; local 15-entry ZIP rebuilt (gitignored, not published). Chrome repro/verification remains owner-owned; release v0.1.0 untouched pending combined Chrome validation of turns 26–27.

@@ -25,12 +25,10 @@
         height: 100%;
       }
     </style>
-    <script>
-      if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('mode') === 'floating') {
-        document.documentElement.classList.add('floating');
-        document.body?.classList.add('floating');
-      }
-    </script>
+    <!-- CSP-INLINE-01: floating-mode detection moved to an external packaged file —
+          MV3 CSP (`script-src 'self'`) forbids inline scripts. Classic script keeps
+          the original synchronous pre-paint timing. See public/floating-mode.js. -->
+    <script src="/floating-mode.js"></script>
   </head>
   <body class="m-0 p-0 bg-transparent overflow-hidden">
     <div id="root"></div>
